@@ -1,3 +1,6 @@
+/**
+ * 订阅发布者模式
+ */
 let eventEmitter = {
   // 缓存列表
   list: {},

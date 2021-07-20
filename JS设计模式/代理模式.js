@@ -1,5 +1,6 @@
 /**
  * Created by lin on 2018/8/15.
+ * 为其他对象提供一种代理以控制对这个对象的访问
  */
 // 虚拟代理实现图片预加载
 const myImage = (function() {
@@ -31,10 +32,10 @@ proxyImage.setSrc('http://loaded.jpg');
 // 缓存代理实现乘积计算
 const mult = function() {
   let a = 1;
-  for (let i = 0, l; l = arguments[i++];) {
-    a = a * l;
+  for (let val of arguments) {
+    a *= val
   }
-  return a;
+  return a
 };
 
 const proxyMult = (function() {
