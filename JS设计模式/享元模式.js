@@ -1,5 +1,10 @@
 /**
  * Created by lin on 2018/8/16.
+ * 享元（Flyweight）模式可以说是一种拿来主义模式，是基于一个模板对象来快速生成很多相似对象的方法，
+ * 是基于共享来快速批量创建相似对象的思想。
+ * 
+ * 享元模式的核心思想:用最少的对象来表示一批相似的对象
+ * https://zhuanlan.zhihu.com/p/332750314
  */
 // 方案1
 const Model1 = function(gender, underwear) {
@@ -63,7 +68,7 @@ const modelFactory = (function() {
       if (modelGender[gender]) {
         return modelGender[gender];
       }
-      modelGender[gender] = new Model(gender);
+      modelGender[gender] = new Model3(gender);
       return modelGender[gender];
     }
   };

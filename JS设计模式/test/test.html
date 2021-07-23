@@ -11,11 +11,51 @@
 <body>
   <div>123</div>
   <script type="module">
-    import {} from './gouzaoheyibanTest.js'
-    // window.onload = function () {
-    //   let a = new A('test')
-    //   console.log(a.prototype)
-    // }
+    const new2Order500 = function (orderType, pay, stock) {
+      if (orderType === 1 && pay === true) {
+        console.log('500 元定金预购，得到 100 元优惠券');
+      } else {
+        return 'nextSuccess';
+      }
+    };
+
+    const new2Order200 = function (orderType, pay, stock) {
+      if (orderType === 2 && pay === true) {
+        console.log('200 元定金预购，得到 50 元优惠券');
+      } else {
+        return 'nextSuccess';
+      }
+    };
+
+    const new2OrderCommon = function (orderType, pay, stock) {
+      if (orderType === 3 && stock > 0) {
+        console.log('普通购买，无优惠券');
+      } else {
+        console.log('库存不够，无法购买');
+      }
+    };
+
+    // 链路代码
+    // 重点:整体执行顺序为先执行最后一个after之前的函数,如果最后一个after之前还有after,那么继续依此类推,直到最开始的
+    // 函数,然后函数从第一个开始一次执行,知道满足条件或者执行到最后为止
+    Function.prototype.after = function (fn) {
+      const self = this;
+      return function () {
+        // 这行代码相当于先执行调用after的函数
+        const result = self.apply(self, arguments);
+        // 如果第一个调用after的函数执行结果是'nextSuccess',然后执行fn
+        if (result === 'nextSuccess') {
+          return fn.apply(self, arguments); // 这里 return 别忘记了~
+        }
+      };
+    };
+
+    const newOrder = new2Order500.after(new2Order200);
+    console.log(newOrder)
+    const newOrder1 = newOrder.after(new2OrderCommon);
+    console.log(newOrder1)
+
+    newOrder1(3, true, 500); // 普通购买，无优惠券
   </script>
 </body>
 
